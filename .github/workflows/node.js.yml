@@ -23,19 +23,19 @@ jobs:
     - name: Get version
       id: get_version
       run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-    - name: 使用 Node.js ${{ matrix.node-version }} 开始构建 CasaOS UI
+    - name: Use Node.js ${{ matrix.node-version }} to build CasaOS UI
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |
           sed -i "s/..\/web/.\/build\/sysroot\/var\/lib\/casaos\/www/g" ./package.json
-          cat package.json
-    - run: yarn install
-    - run: yarn build
-    - run: ls
-    - run: tar zcvf "linux-all-casaos-ui-${{ steps.get_version.outputs.VERSION }}.tar.gz" ./build
-    - run: ls
+          yarn install
+          yarn build
+    
+    - name: Create tar.gz archive
+      id: create_archive
+      run: tar zcvf "linux-all-casaos-ui-${{ steps.get_version.outputs.VERSION }}.tar.gz" ./build
     
     - name: Create Release
       id: create_release
@@ -47,6 +47,7 @@ jobs:
         release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
+        
     - name: Upload Release Asset
       id: upload-release-asset 
       uses: actions/upload-release-asset@v1
