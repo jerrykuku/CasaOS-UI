@@ -4,11 +4,13 @@
 name: Node.js CI
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
   repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: false
+        default: 'false'
 
 jobs:
   build:
@@ -27,5 +29,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: |
+          sed -i 's/^"build": "vue-cli-service build --dest ../web --mode production",/"build": "vue-cli-service build --dest ./build/sysroot/var/lib/casaos/www/ --mode production",/g' package.json
+          cat package.json
     - run: yarn install
     - run: yarn build
