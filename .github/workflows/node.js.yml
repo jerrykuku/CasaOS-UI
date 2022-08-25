@@ -30,7 +30,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: |
-          sed -i "s/..\/web\/.\/build\/sysroot\/var\/li\b/casaos\/www/g" ./package.json
+          sed -i "s/..\/web/.\/build\/sysroot\/var\/li\b/casaos\/www/g" ./package.json
           cat package.json
     - run: yarn install
     - run: yarn build
