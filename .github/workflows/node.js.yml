@@ -34,3 +34,4 @@ jobs:
           cat package.json
     - run: yarn install
     - run: yarn build
+    - run: ls
