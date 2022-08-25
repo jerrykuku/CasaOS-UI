@@ -35,3 +35,5 @@ jobs:
     - run: yarn install
     - run: yarn build
     - run: ls
+    - run: tar zcvf "linux-all-casaos-ui-v0.3.6-snapshot.tar.gz" ./build
+    - run: ls
