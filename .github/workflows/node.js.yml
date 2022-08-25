@@ -20,6 +20,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Get version
+      id: get_version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: 使用 Node.js ${{ matrix.node-version }} 开始构建 CasaOS UI
       uses: actions/setup-node@v3
       with:
@@ -31,7 +34,7 @@ jobs:
     - run: yarn install
     - run: yarn build
     - run: ls
-    - run: tar zcvf "linux-all-casaos-ui-v${{ github.ref }}.tar.gz" ./build
+    - run: tar zcvf "linux-all-casaos-ui-${{ steps.get_version.outputs.VERSION }}.tar.gz" ./build
     - run: ls
     
     - name: Create Release
@@ -51,5 +54,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./linux-all-casaos-ui-${{ github.ref }}.tar.gz
-        asset_name: linux-all-casaos-ui-${{ github.ref }}.tar.gz
+        asset_path: ./linux-all-casaos-ui-${{ steps.get_version.outputs.VERSION }}.tar.gz
+        asset_name: linux-all-casaos-ui-${{ steps.get_version.outputs.VERSION }}.tar.gz
