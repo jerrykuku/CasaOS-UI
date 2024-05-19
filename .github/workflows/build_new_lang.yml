@@ -4,6 +4,7 @@ on:
     #  手动触发事件
     workflow_dispatch:
 
+jobs:
     release:
         runs-on: ubuntu-latest
         strategy:
