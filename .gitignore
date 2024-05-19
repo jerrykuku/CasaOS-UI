@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 /dist
-
+/build
 
 # local env files
 .env.local
@@ -21,3 +21,17 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# warnings
+unused-files.json
+
+# package manager
+#.yarnrc.yml
+#!/releases/yarn**
+.yarn/*
+!.yarn/releases
+
+# turbo
+.turbo
+
+/packages/icewhale*
